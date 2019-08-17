@@ -1,0 +1,3 @@
+[submodule "cryptographyIP"]
+	path = cryptographyIP
+	url = https://github.com/lucaskeiler/cryptographyIP.git
