@@ -2,3 +2,5 @@
 
 set projname iot
 set projpath ./$projname
+
+set fpga xc7a35tcpg236-1
