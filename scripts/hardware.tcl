@@ -46,6 +46,6 @@ wait_on_run impl_1
 
 # Export hardware to SDK
 file mkdir $projpath/iot.sdk;
-file copy -force $projpath/iot.runs/impl_1/microcontroller_wrapper.sysdef $projpath/iot.sdk/microcontroller_wrapper.hdf;
+file copy -force $projpath/iot.runs/impl_1/microcontroller_wrapper.sysdef $projpath/iot.sdk/$hardware_hdf;
 
 exit 
