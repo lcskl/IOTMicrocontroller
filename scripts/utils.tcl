@@ -1,3 +1,5 @@
+#!/usr/bin/tclsh
+
 # This script contains some utilities and configuration parameters
 
 set projname iot

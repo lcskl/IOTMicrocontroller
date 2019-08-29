@@ -1,3 +1,5 @@
+#!/usr/bin/tclsh
+
 # Simple Microblaze+UART design.
 
 source scripts/utils.tcl
@@ -8,7 +10,7 @@ create_project -force $projname $projpath -part $fpga;
 set_property board_part digilentinc.com:basys3:part0:1.1 [current_project];
 
 # Add constraint
-add_files -fileset constrs_1 -norecurse /home/zelda/Documentos/git/IOTMicrocontroller/basys3.xdc
+add_files -fileset constrs_1 -norecurse ./basys3.xdc
 
 ##### Block Design #####
 create_bd_design "microcontroller";
@@ -42,6 +44,7 @@ launch_runs impl_1 -to_step write_bitstream -jobs 4;
 
 wait_on_run impl_1
 
+# Export hardware to SDK
 file mkdir $projpath/iot.sdk;
 file copy -force $projpath/iot.runs/impl_1/microcontroller_wrapper.sysdef $projpath/iot.sdk/microcontroller_wrapper.hdf;
 
