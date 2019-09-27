@@ -33,22 +33,22 @@ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_uartlite:2.0 axi_uartlite_0;
 apply_board_connection -board_interface "usb_uart" -ip_intf "axi_uartlite_0/UART" -diagram "microcontroller";
 
 # TEA IP
-create_bd_cell -type ip -vlnv SoinMicroelectronic.org:soin_ip:tea_apb_wrapper:1.0 tea_apb_wrapper_0
-connect_bd_net [get_bd_pins tea_apb_wrapper_0/PCLK] [get_bd_pins clk_wiz_0/clk_out1]
-connect_bd_net [get_bd_pins tea_apb_wrapper_0/PRESETn] [get_bd_pins rst_clk_wiz_0_100M/peripheral_aresetn]
+#create_bd_cell -type ip -vlnv SoinMicroelectronic.org:soin_ip:tea_apb_wrapper:1.0 tea_apb_wrapper_0
+#connect_bd_net [get_bd_pins tea_apb_wrapper_0/PCLK] [get_bd_pins clk_wiz_0/clk_out1]
+#connect_bd_net [get_bd_pins tea_apb_wrapper_0/PRESETn] [get_bd_pins rst_clk_wiz_0_100M/peripheral_aresetn]
 
 #AXI to APB
-create_bd_cell -type ip -vlnv xilinx.com:ip:axi_apb_bridge:3.0 axi_apb_bridge_0
-set_property -dict [list CONFIG.C_APB_NUM_SLAVES {1}] [get_bd_cells axi_apb_bridge_0]
-connect_bd_net [get_bd_pins axi_apb_bridge_0/s_axi_aclk] [get_bd_pins clk_wiz_0/clk_out1]
-connect_bd_net [get_bd_pins axi_apb_bridge_0/s_axi_aresetn] [get_bd_pins rst_clk_wiz_0_100M/peripheral_aresetn]
+#create_bd_cell -type ip -vlnv xilinx.com:ip:axi_apb_bridge:3.0 axi_apb_bridge_0
+#set_property -dict [list CONFIG.C_APB_NUM_SLAVES {1}] [get_bd_cells axi_apb_bridge_0]
+#connect_bd_net [get_bd_pins axi_apb_bridge_0/s_axi_aclk] [get_bd_pins clk_wiz_0/clk_out1]
+#connect_bd_net [get_bd_pins axi_apb_bridge_0/s_axi_aresetn] [get_bd_pins rst_clk_wiz_0_100M/peripheral_aresetn]
 #TEA Connection
-connect_bd_intf_net [get_bd_intf_pins tea_apb_wrapper_0/APB_S] [get_bd_intf_pins axi_apb_bridge_0/APB_M]
+#connect_bd_intf_net [get_bd_intf_pins tea_apb_wrapper_0/APB_S] [get_bd_intf_pins axi_apb_bridge_0/APB_M]
 
 
 # Axi Interconnection
 create_bd_cell -type ip -vlnv xilinx.com:ip:axi_interconnect:2.1 axi_interconnect_0
-set_property -dict [list CONFIG.NUM_MI {2}] [get_bd_cells axi_interconnect_0]
+set_property -dict [list CONFIG.NUM_MI {1}] [get_bd_cells axi_interconnect_0]
 connect_bd_net [get_bd_pins axi_interconnect_0/ACLK] [get_bd_pins clk_wiz_0/clk_out1]
 connect_bd_net [get_bd_pins axi_interconnect_0/ARESETN]  [get_bd_pins rst_clk_wiz_0_100M/peripheral_aresetn]
 #S00
@@ -60,9 +60,9 @@ connect_bd_net [get_bd_pins axi_interconnect_0/M00_ACLK] [get_bd_pins clk_wiz_0/
 connect_bd_net [get_bd_pins axi_interconnect_0/M00_ARESETN] [get_bd_pins rst_clk_wiz_0_100M/peripheral_aresetn]
 connect_bd_intf_net -boundary_type upper [get_bd_intf_pins axi_interconnect_0/M00_AXI] [get_bd_intf_pins axi_uartlite_0/S_AXI]
 #M01
-connect_bd_net [get_bd_pins axi_interconnect_0/M01_ACLK] [get_bd_pins clk_wiz_0/clk_out1]
-connect_bd_net [get_bd_pins axi_interconnect_0/M01_ARESETN] [get_bd_pins rst_clk_wiz_0_100M/peripheral_aresetn]
-connect_bd_intf_net -boundary_type upper [get_bd_intf_pins axi_interconnect_0/M01_AXI] [get_bd_intf_pins axi_apb_bridge_0/AXI4_LITE]
+#connect_bd_net [get_bd_pins axi_interconnect_0/M01_ACLK] [get_bd_pins clk_wiz_0/clk_out1]
+#connect_bd_net [get_bd_pins axi_interconnect_0/M01_ARESETN] [get_bd_pins rst_clk_wiz_0_100M/peripheral_aresetn]
+#connect_bd_intf_net -boundary_type upper [get_bd_intf_pins axi_interconnect_0/M01_AXI] [get_bd_intf_pins axi_apb_bridge_0/AXI4_LITE]
 
 
 # Run Connection Automation
@@ -81,12 +81,12 @@ make_wrapper -files [get_files $projpath/iot.srcs/sources_1/bd/microcontroller/m
 add_files -norecurse $projpath/iot.srcs/sources_1/bd/microcontroller/hdl/microcontroller_wrapper.v;
 
 # Generate bitstream
-#launch_runs impl_1 -to_step write_bitstream -jobs 4;
+launch_runs impl_1 -to_step write_bitstream -jobs 4;
 
-#wait_on_run impl_1
+wait_on_run impl_1
 
 # Export hardware to SDK
-#file mkdir $projpath/iot.sdk;
-#file copy -force $projpath/iot.runs/impl_1/microcontroller_wrapper.sysdef $projpath/iot.sdk/$hardware_hdf;
+file mkdir $projpath/iot.sdk;
+file copy -force $projpath/iot.runs/impl_1/microcontroller_wrapper.sysdef $projpath/iot.sdk/$hardware_hdf;
 
 exit 
