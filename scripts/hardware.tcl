@@ -70,11 +70,26 @@ apply_bd_automation -rule xilinx.com:bd_rule:board -config { Board_Interface {re
 apply_bd_automation -rule xilinx.com:bd_rule:board -config { Board_Interface {reset ( Reset Signal (BTNC) ) } Manual_Source {New External Port (ACTIVE_LOW)}}  [get_bd_pins rst_clk_wiz_0_100M/ext_reset_in];
 apply_bd_automation -rule xilinx.com:bd_rule:axi4 -config { Clk_master {/clk_wiz_0/clk_out1 (100 MHz)} Clk_slave {Auto} Clk_xbar {Auto} Master {/microblaze_0 (Periph)} Slave {/axi_uartlite_0/S_AXI} intc_ip {New AXI Interconnect} master_apm {0}}  [get_bd_intf_pins axi_uartlite_0/S_AXI];
 
+# Add GPIO
+create_bd_cell -type ip -vlnv xilinx.com:ip:axi_gpio:2.0 axi_gpio_0
+set_property -dict [list CONFIG.C_GPIO_WIDTH {8} CONFIG.GPIO_BOARD_INTERFACE {Custom} CONFIG.C_ALL_OUTPUTS {0}] [get_bd_cells axi_gpio_0]
+#apply_bd_automation -rule xilinx.com:bd_rule:axi4 -config { Clk_master {/clk_wiz_0/clk_out1 (100 MHz)} Clk_slave {Auto} Clk_xbar {/clk_wiz_0/clk_out1 (100 MHz)} Master {/microblaze_0 (Periph)} Slave {/axi_gpio_0/S_AXI} intc_ip {/axi_interconnect_0} master_apm {0}}  [get_bd_intf_pins axi_gpio_0/S_AXI]
+#apply_bd_automation -rule xilinx.com:bd_rule:board -config { Board_Interface {led_16bits ( 16 LEDs ) } Manual_Source {Auto}}  [get_bd_intf_pins axi_gpio_0/GPIO]
+
+#make_bd_pins_external  [get_bd_pins axi_gpio_0/gpio_io_t];
+#set_property name JA [get_bd_ports gpio_io_t_0]
+make_bd_intf_pins_external  [get_bd_intf_pins axi_gpio_0/GPIO]
+set_property name JA [get_bd_intf_ports GPIO_0]
+apply_bd_automation -rule xilinx.com:bd_rule:axi4 -config { Clk_master {/clk_wiz_0/clk_out1 (100 MHz)} Clk_slave {Auto} Clk_xbar {/clk_wiz_0/clk_out1 (100 MHz)} Master {/microblaze_0 (Periph)} Slave {/axi_gpio_0/S_AXI} intc_ip {/axi_interconnect_0} master_apm {0}}  [get_bd_intf_pins axi_gpio_0/S_AXI]
+
 #Address Mapping
 assign_bd_address
 
+#start_gui
+#exit
 # Validate
 validate_bd_design;
+
 
 # Wrap
 make_wrapper -files [get_files $projpath/iot.srcs/sources_1/bd/microcontroller/microcontroller.bd] -top
@@ -89,4 +104,4 @@ wait_on_run impl_1
 file mkdir $projpath/iot.sdk;
 file copy -force $projpath/iot.runs/impl_1/microcontroller_wrapper.sysdef $projpath/iot.sdk/$hardware_hdf;
 
-exit 
+exit
