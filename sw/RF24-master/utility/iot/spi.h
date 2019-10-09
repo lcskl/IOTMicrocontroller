@@ -22,7 +22,7 @@
 
 
 #define CE_PIN 2
-#define CSN_PIN 6
+#define CSN_PIN 5
 #define MOSI_PIN 4
 #define MISO_PIN 0
 #define SCK_PIN 1
@@ -69,11 +69,10 @@ private:
 
 	static int const clkPin = SCK_PIN;
 	static int const dataPin = MOSI_PIN;
-
-	GPIO gp;
+	static int const misoPin = MISO_PIN;
 
 	void init();	
-	void shiftOut(uint8_t data);
+	uint8_t shiftInOut(uint8_t data);
 };
 
 

@@ -1,10 +1,11 @@
 #include "spi.h"
 
 SPI::SPI() {
-	this->gp.open(GPIO::DIRECTION_OUT, this->clkPin);
-	this->gp.open(GPIO::DIRECTION_OUT, this->dataPin);
+	GPIO::open(this->clkPin, GPIO::DIRECTION_OUT);
+	GPIO::open(this->dataPin, GPIO::DIRECTION_OUT);
+	GPIO::open(this->misoPin, GPIO::DIRECTION_IN);
 
-	this->gp.write(this->clkPin, GPIO::OUTPUT_LOW);
+	GPIO::write(this->clkPin, GPIO::OUTPUT_LOW);
 }
 
 void SPI::begin() {
@@ -12,9 +13,10 @@ void SPI::begin() {
 }
 
 uint8_t SPI::transfer(uint8_t tx_) {
-	this->shiftOut(tx_);
+	uint8_t status;
+	status = this->shiftInOut(tx_);
 
-	return 0;
+	return status;
 }
 
 void SPI::transfernb(char* tbuf, char* rbuf, uint32_t len) {
@@ -34,13 +36,15 @@ SPI::~SPI() {
 }
 
 
-void SPI::shiftOut(uint8_t data) {
+uint8_t SPI::shiftInOut(uint8_t data) {
 	uint8_t i;
-
+	uint8_t data_in = 0;
 	for(i = 0; i < 8; i++){
-		gp.write(this->dataPin, !!(data & (1 << (7 - i))));
-	    gp.write(this->clkPin , GPIO::OUTPUT_HIGH);
-	    gp.write(this->clkPin , GPIO::OUTPUT_LOW);
+		uint8_t val = !!(data & (1 << (7 - i)));
+		GPIO::write(this->dataPin, val);
+		data_in = (data_in << 1) | GPIO::read(this->misoPin);
+	    GPIO::write(this->clkPin , GPIO::OUTPUT_HIGH);
+	    GPIO::write(this->clkPin , GPIO::OUTPUT_LOW);
 	}
-
+	return data_in;
 }

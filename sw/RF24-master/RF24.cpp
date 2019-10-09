@@ -590,7 +590,7 @@ bool RF24::begin(void)
 {
 
   uint8_t setup=0;
-
+  spi.begin();
   #if defined (RF24_LINUX)
 
 	#if defined (MRAA)

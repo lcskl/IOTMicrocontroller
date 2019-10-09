@@ -27,7 +27,7 @@
  *
  */
 
-#include <stdio.h>
+//#include <stdio.h>
 #include "xparameters.h"
 #include "xil_cache.h"
 #include "xgpio.h"
@@ -36,7 +36,7 @@
 #include "RF24.h"
 
 #define CE_PIN 2
-#define CSN_PIN 6
+#define CSN_PIN 5
 #define MOSI_PIN 4
 #define MISO_PIN 0
 #define SCK_PIN 1
@@ -50,8 +50,10 @@ int main ()
    print("---Entering main---\n\r");
    print("\r\n");
 
+   GPIO::init();
 
-
+   //GPIO::open(4, GPIO::DIRECTION_OUT);
+   //GPIO::write(4, GPIO::OUTPUT_HIGH);
 /*
    u32 status;
    int led_bit = 1;
@@ -111,24 +113,22 @@ int main ()
 	   for(int i = 0; i < 10000000; i++) {}
    }
 */
-
    const uint8_t address[6] = "00001";
 
    RF24 radio(CE_PIN, CSN_PIN);
 
    radio.begin();
-   //radio.openWritingPipe(address);
-   //radio.setPALevel(RF24_PA_MIN);
-   //radio.stopListening();
+   radio.openWritingPipe(address);
+   radio.setPALevel(RF24_PA_MIN);
+   radio.stopListening();
 
-   	   /*
+
    while(1) {
 	   const char text[] = "Hello World";
 	   radio.write(&text, sizeof(text));
 	   //delay(1000);
 	   for(int i = 0; i < 10000000; i++) {}
    }
-*/
 
    print("---Exiting main---\n\r");
    Xil_DCacheDisable();

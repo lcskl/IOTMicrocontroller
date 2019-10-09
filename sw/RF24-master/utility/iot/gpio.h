@@ -17,16 +17,17 @@
 #define	IOT_GPIO_H
 
 #include <stdint.h>
-#include <stdio.h>
+#include <stdlib.h>
+//#include <stdio.h>
 #include "xgpio.h"
 #include "xparameters.h"
 
 class GPIO {
 
-XGpio mygpio;
-
 public:
- 	/* Constants */
+
+
+	/* Constants */
 	static const int DIRECTION_OUT = 0;
 	static const int DIRECTION_IN = 1;
 	
@@ -37,34 +38,36 @@ public:
 
 	GPIO();
 	
+	static void init();
+
 	/**
 	 * Similar to Arduino pinMode(pin,mode);
      * @param port
      * @param DDR
      */
-	void open(int port, int DDR);
+	static void open(int port, int DDR);
 	/**
 	 * 
      * @param port
      */
-	void close(int port);
+	static void close(int port);
 	/**
 	 * Similar to Arduino digitalRead(pin);
      * @param port
      * @param value
      */
-	int read(int port);
+	static int read(int port);
 	/**
 	* Similar to Arduino digitalWrite(pin,state);
 	* @param port
 	* @param value
 	*/	
-	void write(int port,int value);	
+	static void write(int port,int value);
 	
 	virtual ~GPIO();
 
 private:
-	int assert_port(int port);
+	static int assert_port(int port);
 };
 
 #endif
