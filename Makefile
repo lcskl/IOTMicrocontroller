@@ -5,6 +5,9 @@ all: hardware software
 hardware:
 	vivado -source -mode tcl -source ./scripts/hardware.tcl
 
+reports:
+	vivado -source -mode tcl -source ./scripts/reports.tcl
+
 software:
 	xsdk -batch -source ./scripts/sdk_hello_world.tcl
 
@@ -16,3 +19,4 @@ hello-world: all download
 clean:
 	rm -rf iot .Xil
 	rm -f *.log *.jou
+	rm -rf .scripts/reports

@@ -4,6 +4,7 @@
 
 source scripts/utils.tcl
 
+
 # Create project
 create_project -force $projname $projpath -part $fpga;
 

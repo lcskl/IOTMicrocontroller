@@ -2,6 +2,7 @@
 
 # This script contains some utilities and configuration parameters.
 
+set reportdir ./reports
 set rootdir .
 set projname iot
 set projpath ./$projname
