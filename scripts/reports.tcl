@@ -9,3 +9,5 @@ open_project "$projpath/$projname.xpr"
 open_run synth_1 -name synth_1
 
 report_timing_summary -file $reportdir/timing.rpt
+
+exit

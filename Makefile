@@ -19,4 +19,4 @@ hello-world: all download
 clean:
 	rm -rf iot .Xil
 	rm -f *.log *.jou
-	rm -rf .scripts/reports
+	rm -rf reports
