@@ -37,6 +37,8 @@ apply_board_connection -board_interface "usb_uart" -ip_intf "axi_uartlite_0/UART
 create_bd_cell -type ip -vlnv SoinMicroelectronic.org:soin_ip:tea_apb_wrapper:1.0 tea_apb_wrapper_0
 connect_bd_net [get_bd_pins tea_apb_wrapper_0/PCLK] [get_bd_pins clk_wiz_0/clk_out1]
 connect_bd_net [get_bd_pins tea_apb_wrapper_0/PRESETn] [get_bd_pins rst_clk_wiz_0_100M/peripheral_aresetn]
+set_property -dict [list CONFIG.CLK_DOMAIN {/clk_wiz_0_clk_out1}] [get_bd_pins tea_apb_wrapper_0/PCLK]
+set_property -dict [list CONFIG.PHASE {0.0}] [get_bd_pins tea_apb_wrapper_0/PCLK]
 
 #AXI to APB
 create_bd_cell -type ip -vlnv xilinx.com:ip:axi_apb_bridge:3.0 axi_apb_bridge_0
