@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DC_REMOVER_ALPHA                    0.95
 
 #include <stdint.h>
+#include "time.h"
 
 #include "MAX30100.h"
 #include "MAX30100_BeatDetector.h"

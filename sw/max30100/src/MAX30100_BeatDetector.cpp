@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "MAX30100_BeatDetector.h"
 #include "sleep.h"
 
-static int millis() {return 0;}
+//static int millis() {return 0;}
 
 #ifndef min
 #define min(a,b) \

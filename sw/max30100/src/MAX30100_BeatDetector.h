@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MAX30100_BEATDETECTOR_H
 
 #include <stdint.h>
+#include "time.h"
 
 #define BEATDETECTOR_INIT_HOLDOFF                2000    // in ms, how long to wait before counting
 #define BEATDETECTOR_MASKING_HOLDOFF             200     // in ms, non-retriggerable window after beat detection

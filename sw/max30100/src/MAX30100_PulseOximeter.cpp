@@ -21,7 +21,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "MAX30100_PulseOximeter.h"
 
 
-static int millis() {return 0;}
+//static int millis() {return 0;}
+
 PulseOximeter::PulseOximeter() :
     state(PULSEOXIMETER_STATE_INIT),
     tsFirstBeatDetected(0),

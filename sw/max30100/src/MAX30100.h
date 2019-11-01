@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MAX30100_H
 
 #include <stdint.h>
+#include "time.h"
 
 #define CIRCULAR_BUFFER_XS
 #include "CircularBuffer.h"

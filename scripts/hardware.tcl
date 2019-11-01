@@ -93,6 +93,11 @@ set_property name JB [get_bd_intf_ports iic_rtl]
 set_property -dict [list CONFIG.C_SDA_LEVEL {0}] [get_bd_cells axi_iic_0]
 set_property -dict [list CONFIG.IIC_FREQ_KHZ {50}] [get_bd_cells axi_iic_0]
 
+# Timer
+create_bd_cell -type ip -vlnv xilinx.com:ip:axi_timer:2.0 axi_timer_0
+apply_bd_automation -rule xilinx.com:bd_rule:axi4 -config { Clk_master {/clk_wiz_0/clk_out1 (100 MHz)} Clk_slave {Auto} Clk_xbar {/clk_wiz_0/clk_out1 (100 MHz)} Master {/microblaze_0 (Periph)} Slave {/axi_timer_0/S_AXI} intc_ip {/axi_interconnect_0} master_apm {0}}  [get_bd_intf_pins axi_timer_0/S_AXI]
+set_property -dict [list CONFIG.mode_64bit {0} CONFIG.enable_timer2 {0}] [get_bd_cells axi_timer_0]
+
 #Address Mapping
 assign_bd_address
 

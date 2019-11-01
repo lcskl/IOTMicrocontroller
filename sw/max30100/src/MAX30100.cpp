@@ -37,6 +37,9 @@ bool MAX30100::begin()
 	int Status;
 	XIic_Config *ConfigPtr;	/* Pointer to configuration data */
 
+	//We need to initialize the timer
+	//initTime(XPAR_AXI_TIMER_0_DEVICE_ID, 0x00);
+
 	/*
 	 * Initialize the IIC driver so that it is ready to use.
 	 */
