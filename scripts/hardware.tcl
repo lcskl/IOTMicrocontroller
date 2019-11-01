@@ -85,6 +85,14 @@ make_bd_intf_pins_external  [get_bd_intf_pins axi_gpio_0/GPIO]
 set_property name JA [get_bd_intf_ports GPIO_0]
 apply_bd_automation -rule xilinx.com:bd_rule:axi4 -config { Clk_master {/clk_wiz_0/clk_out1 (100 MHz)} Clk_slave {Auto} Clk_xbar {/clk_wiz_0/clk_out1 (100 MHz)} Master {/microblaze_0 (Periph)} Slave {/axi_gpio_0/S_AXI} intc_ip {/axi_interconnect_0} master_apm {0}}  [get_bd_intf_pins axi_gpio_0/S_AXI]
 
+# Add I2C
+create_bd_cell -type ip -vlnv xilinx.com:ip:axi_iic:2.0 axi_iic_0
+apply_bd_automation -rule xilinx.com:bd_rule:axi4 -config { Clk_master {/clk_wiz_0/clk_out1 (100 MHz)} Clk_slave {Auto} Clk_xbar {/clk_wiz_0/clk_out1 (100 MHz)} Master {/microblaze_0 (Periph)} Slave {/axi_iic_0/S_AXI} intc_ip {/axi_interconnect_0} master_apm {0}}  [get_bd_intf_pins axi_iic_0/S_AXI]
+apply_bd_automation -rule xilinx.com:bd_rule:board -config { Manual_Source {Auto}}  [get_bd_intf_pins axi_iic_0/IIC]
+set_property name JB [get_bd_intf_ports iic_rtl]
+set_property -dict [list CONFIG.C_SDA_LEVEL {0}] [get_bd_cells axi_iic_0]
+set_property -dict [list CONFIG.IIC_FREQ_KHZ {50}] [get_bd_cells axi_iic_0]
+
 #Address Mapping
 assign_bd_address
 
