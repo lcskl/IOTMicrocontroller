@@ -21,6 +21,9 @@ void encrypt(teaBase_t * tea, uint32_t * word, uint32_t * result){
 
 	tea->control = 0x1;
 
+	for (int i = 0; i < 100; ++i);
+	//while(tea->control == 0);
+
 	*(result+0x0) = tea->result_pt1;
 	*(result+0x1) = tea->result_pt2;
 }
@@ -31,6 +34,8 @@ void decrypt(teaBase_t * tea, uint32_t * word, uint32_t * result){
 	tea->data_pt2 = *(word+0x1);
 
 	tea->control = 0x2;
+
+	for (int i = 0; i < 100; ++i);
 
 	*(result+0x0) = tea->result_pt1;
 	*(result+0x1) = tea->result_pt2;
