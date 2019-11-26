@@ -48,31 +48,31 @@
 MAX30100 sensor;
 
 float my_random_temp() {
-	float temperature;
+  float temperature;
 
-	sensor.startTemperatureSampling();
-	temperature = sensor.retrieveTemperature();
-	//float unit = (float)getCountTime() / (float)0xFFFFFFFF;
-	return temperature + 6.5;
+  sensor.startTemperatureSampling();
+  temperature = sensor.retrieveTemperature();
+  //float unit = (float)getCountTime() / (float)0xFFFFFFFF;
+  return temperature + 6.5;
 }
 
 float my_random_bpm() {
 
-	float temperature;
+  float temperature;
 
-	sensor.startTemperatureSampling();
-	temperature = sensor.retrieveTemperature()*2.5;
-	return temperature + 6.5;
+  sensor.startTemperatureSampling();
+  temperature = sensor.retrieveTemperature()*2.5;
+  return temperature + 6.5;
 
 }
 
 float my_random_oximetry() {
 
-	float temperature;
+  float temperature;
 
-	sensor.startTemperatureSampling();
-	temperature = sensor.retrieveTemperature()/30;
-	return temperature * 95;
+  sensor.startTemperatureSampling();
+  temperature = sensor.retrieveTemperature()/30;
+  return temperature * 95;
 
 }
 
@@ -122,24 +122,24 @@ int main ()
 
 
    while(1) {
-	   sensor.startTemperatureSampling();
-	   temperature = 1000 * sensor.retrieveTemperature();
+     //sensor.startTemperatureSampling();
+     //temperature = 1000 * sensor.retrieveTemperature();
 
-	   uint32_t temp = 1000*my_random_temp();
-	   uint32_t bpm = 1000*my_random_bpm();
-	   uint32_t oxi = 1000*my_random_oximetry();
+     uint32_t temp = 1000*my_random_temp();
+     uint32_t bpm = 1000*my_random_bpm();
+     uint32_t oxi = 1000*my_random_oximetry();
 
-	   print("Sending ... \n\r");
-	   word[0] = temp ;
-	   word[1] = temp ;
-	   word[2] = bpm ;
-	   word[3] = oxi ;
-	   encrypt(teaREG1, word, result);
-	   encrypt(teaREG1, word+2, result+2);
-	   radio.write(result, 8);
-	   radio.write(result+2, 8);
+     print("Sending ... \n\r");
+     word[0] = temp ;
+     word[1] = temp ;
+     word[2] = bpm ;
+     word[3] = oxi ;
+     encrypt(teaREG1, word, result);
+     encrypt(teaREG1, word+2, result+2);
+     radio.write(result, 8);
+     radio.write(result+2, 8);
 
-	   for(int i = 0; i < 1000000; i++) {}
+     for(int i = 0; i < 1000000; i++) {}
    }
 
    print("---Exiting main---\n\r");
